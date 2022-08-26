@@ -1,9 +1,27 @@
-import React from 'react';
+// import React from 'react';
 import './Footer.css';
+import React, { useRef,useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { Button } from './Button';
 import { Link } from 'react-router-dom';
 
 function Footer() {
+  // const [form,setform]=useState('');
+  const form = useRef();
+  // function call(){
+  //   setform('submit');
+  //   sendEmail("Send");
+  // }
+  const sendEmail = (e) => {
+    e.preventDefault();
+    alert('message sent succesfully');
+    emailjs.sendForm('service_ynrtc97', 'template_2j3duk4', form.current, 'mqi9_EVVy78w5ZPzt')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+    }
   return (
     <div className='footer-container'>
       <section className='footer-subscription'>
@@ -14,7 +32,17 @@ function Footer() {
           You can unsubscribe at any time.
         </p>
         <div className='input-areas'>
-          <form>
+        <form ref={form} onSubmit={sendEmail}>
+      <label>Name</label>
+      <input className='footer-input' type="text" name="user_name" />
+      <label>Email</label>
+      <input className='footer-input' type="email" name="user_email" />
+      <label>Message</label>
+      <textarea className='footer-input-message' name="message" />
+      {/* <Button buttonStyle='btn--outline' onClick={()=>call()}>Subscribe</Button> */}
+      <input className='btn--outline' type="submit" value="Send" />
+    </form>
+          {/* <form>
             <input
               className='footer-input'
               name='email'
@@ -22,7 +50,7 @@ function Footer() {
               placeholder='Your Email'
             />
             <Button buttonStyle='btn--outline'>Subscribe</Button>
-          </form>
+          </form> */}
         </div>
       </section>
       <div class='footer-links'>
